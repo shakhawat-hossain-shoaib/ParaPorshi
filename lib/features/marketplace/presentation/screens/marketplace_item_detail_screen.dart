@@ -101,11 +101,11 @@ class MarketplaceItemDetailScreen extends StatelessWidget {
             leading: const CircleAvatar(
               child: Icon(Icons.person),
             ),
-            title: Text(
+            title: const Text(
               'Sample Seller',
               style: AppTypography.body1,
             ),
-            subtitle: Text(
+            subtitle: const Text(
               'Member of ParaConnect',
               style: AppTypography.body2,
             ),

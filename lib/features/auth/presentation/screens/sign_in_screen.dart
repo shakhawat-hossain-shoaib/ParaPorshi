@@ -44,7 +44,7 @@ class _SignInScreenState extends State<SignInScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'আপনার মোবাইল নম্বর দিন, আমরা OTP পাঠাবো।',
               style: AppTypography.body1,
             ),

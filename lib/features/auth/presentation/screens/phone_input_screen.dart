@@ -71,7 +71,7 @@ class _PhoneInputScreenState extends State<PhoneInputScreen> {
               ],
             ),
             const SizedBox(height: 24),
-            Text(
+            const Text(
               'লগইন বা অ্যাকাউন্ট তৈরি করতে আপনার মোবাইল নম্বর ব্যবহার করুন। আমরা OTP পাঠাবো।',
               style: AppTypography.body1,
             ),

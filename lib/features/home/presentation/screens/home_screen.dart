@@ -41,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
       padding: const EdgeInsets.only(bottom: 80),
       children: [
         const SizedBox(height: 8),
-        ..._posts.map((p) => PostCard(post: p)).toList(),
+        ..._posts.map((p) => PostCard(post: p)),
       ],
     );
   }
@@ -57,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
     ];
 
     final titles = [
-      'ParaConnect',
+      'ParaPorshi ',
       'সতর্কতা',   // ⭐ আগে "অ্যালার্ট" ছিল
       'কেনাবেচা',
       'সেবা',

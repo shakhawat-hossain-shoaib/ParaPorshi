@@ -41,7 +41,7 @@ class _CreatePollScreenState extends State<CreatePollScreen> {
               maxLines: 2,
             ),
             const SizedBox(height: 16),
-            Text('অপশনগুলো', style: AppTypography.body1),
+            const Text('অপশনগুলো', style: AppTypography.body1),
             const SizedBox(height: 8),
             Expanded(
               child: ListView.builder(

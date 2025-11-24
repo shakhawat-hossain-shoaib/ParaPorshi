@@ -185,11 +185,11 @@ class _PostCardState extends State<PostCard> {
                 ),
               ),
               if (post.commentsCount > commentsToShow.length)
-                Padding(
-                  padding: const EdgeInsets.only(top: 2),
+                const Padding(
+                  padding: EdgeInsets.only(top: 2),
                   child: Text(
                     'আরও মন্তব্য দেখুন...',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 12,
                       color: AppColors.secondary,
                     ),

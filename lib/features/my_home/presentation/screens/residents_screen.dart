@@ -44,8 +44,8 @@ class _ResidentsScreenState extends State<ResidentsScreen> {
           return ListView(
             children: [
               const SizedBox(height: 8),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
                   'People currently living in this home.',
                   style: AppTypography.body2,

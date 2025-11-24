@@ -34,7 +34,7 @@ class MyHomeHeader extends StatelessWidget {
               children: [
                 const Icon(Icons.house_outlined, size: 24),
                 const SizedBox(width: 8),
-                Text('My Home', style: AppTypography.h2),
+                const Text('My Home', style: AppTypography.h2),
                 const Spacer(),
                 if (onDetailsTap != null)
                   TextButton(

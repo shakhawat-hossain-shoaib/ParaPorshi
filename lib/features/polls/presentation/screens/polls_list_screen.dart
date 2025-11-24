@@ -48,7 +48,7 @@ class PollsListScreen extends StatelessWidget {
                       ],
                     ),
                   );
-                }).toList(),
+                }),
               ],
             ),
           ),

@@ -41,7 +41,7 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
           return ListView(
             padding: const EdgeInsets.all(16),
             children: [
-              Text(
+              const Text(
                 'Flat & building',
                 style: AppTypography.h2,
               ),
@@ -51,7 +51,7 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
               HomeInfoRow(label: 'Address', value: home.addressLine),
               HomeInfoRow(label: 'Ward', value: home.wardName),
               const SizedBox(height: 24),
-              Text(
+              const Text(
                 'Ownership',
                 style: AppTypography.h2,
               ),
@@ -62,7 +62,7 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
                   value: '${home.residentsCount} people'),
               if (home.notes != null) ...[
                 const SizedBox(height: 24),
-                Text('Notes', style: AppTypography.h2),
+                const Text('Notes', style: AppTypography.h2),
                 const SizedBox(height: 8),
                 Text(home.notes!, style: AppTypography.body2),
               ],

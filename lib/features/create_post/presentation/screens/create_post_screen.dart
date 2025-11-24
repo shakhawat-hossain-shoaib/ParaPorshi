@@ -33,7 +33,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('পোস্ট টাইপ', style: AppTypography.body1),
+            const Text('পোস্ট টাইপ', style: AppTypography.body1),
             const SizedBox(height: 8),
             Wrap(
               spacing: 8,
@@ -58,8 +58,8 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
               maxLines: 4,
             ),
             const SizedBox(height: 12),
-            Row(
-              children: const [
+            const Row(
+              children: [
                 Icon(Icons.add_a_photo_outlined, size: 20),
                 SizedBox(width: 8),
                 Text('ছবি যোগ করুন'),

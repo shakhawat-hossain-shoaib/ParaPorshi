@@ -36,7 +36,7 @@ class _OnboardingInterestsScreenState extends State<OnboardingInterestsScreen> {
           children: [
             const OnboardingStepIndicator(currentStep: 3, totalSteps: 3),
             const SizedBox(height: 24),
-            Text(
+            const Text(
               'আপনি কোন ধরনের পোস্ট বেশি দেখতে চান?',
               style: AppTypography.h2,
             ),

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:hyperlocal_hub_bd/config/app_typography.dart';
 import 'package:hyperlocal_hub_bd/core/widgets/app_text_field.dart';
 import 'package:hyperlocal_hub_bd/core/widgets/primary_button.dart';
-import 'package:hyperlocal_hub_bd/core/widgets/alert_chip.dart';
 
 class CreateAlertScreen extends StatefulWidget {
   const CreateAlertScreen({super.key});
@@ -28,7 +27,7 @@ class _CreateAlertScreenState extends State<CreateAlertScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('ক্যাটাগরি', style: AppTypography.body1),
+            const Text('ক্যাটাগরি', style: AppTypography.body1),
             const SizedBox(height: 8),
             Wrap(
               spacing: 8,
@@ -69,16 +68,16 @@ class _CreateAlertScreenState extends State<CreateAlertScreen> {
               hintText: 'সংক্ষিপ্তভাবে লিখুন, কী হয়েছে...',
             ),
             const SizedBox(height: 12),
-            Row(
-              children: const [
+            const Row(
+              children: [
                 Icon(Icons.add_a_photo_outlined, size: 20),
                 SizedBox(width: 8),
                 Text('ছবি যোগ করুন'),
               ],
             ),
             const SizedBox(height: 8),
-            Row(
-              children: const [
+            const Row(
+              children: [
                 Icon(Icons.location_on_outlined, size: 20),
                 SizedBox(width: 8),
                 Text('লোকেশন: Ward 17, Mohammadpur'),

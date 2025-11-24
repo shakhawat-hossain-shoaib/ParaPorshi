@@ -25,24 +25,24 @@ class ServiceProviderDetailScreen extends StatelessWidget {
                 child: const Icon(Icons.build_outlined, size: 30),
               ),
               const SizedBox(width: 16),
-              Column(
+              const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     'Jewel Electric',
                     style: AppTypography.h2,
                   ),
-                  const SizedBox(height: 4),
+                  SizedBox(height: 4),
                   Text(
                     'ইলেকট্রিশিয়ান • ৩০০ মিটার দূরে',
                     style: AppTypography.body2,
                   ),
-                  const SizedBox(height: 4),
+                  SizedBox(height: 4),
                   Row(
                     children: [
-                      const Icon(Icons.star,
+                      Icon(Icons.star,
                           size: 16, color: Colors.amber),
-                      const SizedBox(width: 4),
+                      SizedBox(width: 4),
                       Text('4.8 (120 reviews)', style: AppTypography.body2),
                     ],
                   ),
@@ -57,7 +57,7 @@ class ServiceProviderDetailScreen extends StatelessWidget {
                 .copyWith(fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 8),
-          Text(
+          const Text(
             'Experienced electrician for home wiring, light, fan, switch and small repair works in Ward 17 area. Available 9am–10pm.',
             style: AppTypography.body2,
           ),

@@ -46,14 +46,14 @@ class OnboardingWelcomeScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 12),
-                    Text(
+                    const Text(
                       'পাড়াConnect',
                       style: AppTypography.h1,
                     ),
                   ],
                 ),
                 const SizedBox(height: 12),
-                Text(
+                const Text(
                   'আপনার ওয়ার্ড, মহল্লা আর আশেপাশের সব খবর, সেফটি অ্যালার্ট, কেনাবেচা আর সার্ভিস – এক অ্যাপে।',
                   style: AppTypography.body1,
                 ),

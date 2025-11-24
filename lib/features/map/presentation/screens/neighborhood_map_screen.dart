@@ -14,8 +14,8 @@ class NeighborhoodMapScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(16),
+          const Padding(
+            padding: EdgeInsets.all(16),
             child: Text(
               'আপনার পাড়ার মানচিত্র (ডেমো)',
               style: AppTypography.body1,

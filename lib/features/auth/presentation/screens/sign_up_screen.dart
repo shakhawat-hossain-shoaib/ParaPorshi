@@ -47,7 +47,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'আপনার নাম এবং মোবাইল নম্বর দিয়ে পাড়াConnect এ নতুন অ্যাকাউন্ট তৈরি করুন।',
               style: AppTypography.body1,
             ),

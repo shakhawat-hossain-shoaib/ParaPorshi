@@ -23,7 +23,7 @@ class OnboardingSelectAreaScreen extends StatelessWidget {
           children: [
             const OnboardingStepIndicator(currentStep: 2, totalSteps: 3),
             const SizedBox(height: 24),
-            Text(
+            const Text(
               'আপনি মূলত কোন ওয়ার্ড/মহল্লায় থাকেন?',
               style: AppTypography.h2,
             ),
@@ -34,10 +34,10 @@ class OnboardingSelectAreaScreen extends StatelessWidget {
               hintText: 'উদাহরণ: Ward 17, Mohammadpur',
             ),
             const SizedBox(height: 16),
-            Row(
+            const Row(
               children: [
-                const Icon(Icons.my_location_outlined, size: 18),
-                const SizedBox(width: 8),
+                Icon(Icons.my_location_outlined, size: 18),
+                SizedBox(width: 8),
                 Text('বর্তমান লোকেশন ব্যবহার করুন', style: AppTypography.body2),
               ],
             ),

@@ -20,7 +20,7 @@ class ErrorView extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('কিছু একটা ভুল হয়েছে', style: AppTypography.h2),
+            const Text('কিছু একটা ভুল হয়েছে', style: AppTypography.h2),
             const SizedBox(height: 8),
             Text(message, style: AppTypography.body2, textAlign: TextAlign.center),
             if (onRetry != null) ...[

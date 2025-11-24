@@ -32,8 +32,8 @@ class ServicesListScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Header
-        Padding(
-          padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+        const Padding(
+          padding: EdgeInsets.fromLTRB(16, 12, 16, 8),
           child: Text('সেবা', style: AppTypography.h2),
         ),
 
@@ -125,7 +125,7 @@ class ServicesListScreen extends StatelessWidget {
                           onPressed: () {
                             context.push('/services/provider');
                           },
-                          child: Text(
+                          child: const Text(
                             'ডিটেইলস',
                             style: TextStyle(
                               color: AppColors.primary,

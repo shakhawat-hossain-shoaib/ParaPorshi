@@ -98,7 +98,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       right: 0,
                       child: Container(
                         padding: const EdgeInsets.all(4),
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           color: AppColors.primary,
                           shape: BoxShape.circle,
                         ),

@@ -51,7 +51,7 @@ class MarketplaceScreen extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
           child: Row(
             children: [
-              Text('বাজার', style: AppTypography.h2),
+              const Text('বাজার', style: AppTypography.h2),
               const Spacer(),
               TextButton.icon(
                 style: TextButton.styleFrom(

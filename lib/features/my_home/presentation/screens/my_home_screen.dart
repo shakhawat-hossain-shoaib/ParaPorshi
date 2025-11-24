@@ -51,22 +51,22 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
                 context.push('/my-home/residents');
               },
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
+            const Padding(
+              padding: EdgeInsets.fromLTRB(16, 8, 16, 4),
               child: Text(
                 'Quick overview',
                 style: AppTypography.body1,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
               child: Text(
                 'Here you’ll see upcoming bills, building notices and home-related alerts.',
                 style: AppTypography.body2,
               ),
             ),
             const SizedBox(height: 16),
-            Expanded(
+            const Expanded(
               child: Center(
                 child: Text(
                   'More My Home features coming soon.\n(Owner/tenant tools, bill tracking, complaints, etc.)',

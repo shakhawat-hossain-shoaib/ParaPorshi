@@ -34,7 +34,7 @@ class EventDetailScreen extends StatelessWidget {
             const SizedBox(height: 8),
             Text('আয়োজক: ${event.hostName}', style: AppTypography.body2),
             const SizedBox(height: 16),
-            Text('বিস্তারিত', style: AppTypography.body1),
+            const Text('বিস্তারিত', style: AppTypography.body1),
             const SizedBox(height: 4),
             Text(event.description, style: AppTypography.body2),
             const SizedBox(height: 16),

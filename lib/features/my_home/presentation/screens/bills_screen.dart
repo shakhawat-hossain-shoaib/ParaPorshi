@@ -44,8 +44,8 @@ class _BillsScreenState extends State<BillsScreen> {
           return ListView(
             children: [
               const SizedBox(height: 8),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
                   'Your recent utility & building bills.',
                   style: AppTypography.body2,
