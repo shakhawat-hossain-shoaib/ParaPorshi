@@ -1,10 +1,9 @@
 // lib/features/my_home/presentation/screens/bills_screen.dart
-
 import 'package:flutter/material.dart';
-import 'package:hyperlocal_hub_bd/config/app_typography.dart';
-import '../../data/my_home_repository.dart';
-import '../../models/bill.dart';
-import '../widgets/bill_card.dart';
+import 'package:hyperlocal_hub_bd/features/my_home/data/my_home_repository.dart';
+import 'package:hyperlocal_hub_bd/features/my_home/models/bill.dart';
+import 'package:hyperlocal_hub_bd/features/my_home/presentation/widgets/bill_card.dart';
+import 'package:hyperlocal_hub_bd/core/widgets/back_app_bar.dart';
 
 class BillsScreen extends StatefulWidget {
   const BillsScreen({super.key});
@@ -14,49 +13,46 @@ class BillsScreen extends StatefulWidget {
 }
 
 class _BillsScreenState extends State<BillsScreen> {
-  final _repo = MyHomeRepository();
   late Future<List<Bill>> _futureBills;
 
   @override
   void initState() {
     super.initState();
-    _futureBills = _repo.fetchBills();
+    _futureBills = myHomeRepository.getBills();
+  }
+
+  Future<void> _refresh() async {
+    setState(() {
+      _futureBills = myHomeRepository.getBills();
+    });
+    await _futureBills;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Bills'),
-      ),
-      body: FutureBuilder<List<Bill>>(
-        future: _futureBills,
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          final bills = snapshot.data!;
-          if (bills.isEmpty) {
-            return const Center(child: Text('No bills yet.'));
-          }
-
-          return ListView(
-            children: [
-              const SizedBox(height: 8),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: Text(
-                  'Your recent utility & building bills.',
-                  style: AppTypography.body2,
-                ),
-              ),
-              const SizedBox(height: 8),
-              ...bills.map((b) => BillCard(bill: b)),
-              const SizedBox(height: 16),
-            ],
-          );
-        },
+      appBar: const BackAppBar(title: 'বিলসমূহ'),
+      body: RefreshIndicator(
+        onRefresh: _refresh,
+        child: FutureBuilder<List<Bill>>(
+          future: _futureBills,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            if (snapshot.hasError) {
+              return ListView(children: [const SizedBox(height: 80), Center(child: Text('ত্রুটি: ${snapshot.error}'))]);
+            }
+            final bills = snapshot.data ?? [];
+            if (bills.isEmpty) {
+              return ListView(children: const [SizedBox(height: 80), Center(child: Text('কোনো বিল নেই।'))]);
+            }
+            return ListView.builder(
+              itemCount: bills.length,
+              itemBuilder: (context, index) => BillCard(bill: bills[index]),
+            );
+          },
+        ),
       ),
     );
   }

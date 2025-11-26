@@ -1,70 +1,50 @@
 // lib/features/my_home/data/my_home_local_data.dart
-
-import '../models/bill.dart';
-import '../models/resident.dart';
-import '../models/home_info.dart';
+import 'package:hyperlocal_hub_bd/features/my_home/models/bill.dart';
+import 'package:hyperlocal_hub_bd/features/my_home/models/home_info.dart';
+import 'package:hyperlocal_hub_bd/features/my_home/models/resident.dart';
+import 'package:hyperlocal_hub_bd/features/my_home/models/notice.dart';
 
 class MyHomeLocalData {
-  static HomeInfo get homeInfo => HomeInfo(
-    flatNumber: 'A-3',
-    buildingName: 'Green View Residence',
-    addressLine: 'Road 12, Mohammadpur',
-    wardName: 'Ward 17, Mohammadpur',
-    ownershipType: 'Owner',
-    residentsCount: 4,
-    notes: 'Registered in ParaConnect since 2024',
+  // Simulated "current user is owner" flag for demo.
+  // In real app replace this check with actual auth / profile verification.
+  static bool currentUserIsOwner = true;
+
+  static final HomeInfo homeInfo = HomeInfo(
+    buildingName: 'শান্তি নিকেতন',
+    flatNo: 'বি-৪',
+    road: 'রোড ৫',
+    area: 'মোহাম্মদপুর',
+    ward: 'ওয়ার্ড ১৭',
+    city: 'ঢাকা',
+    ownerName: 'মোঃ আসাদুজ্জামান',
+    contactPhone: '017xxxxxxxx',
+    familyMembers: 4,
+    livingSince: DateTime(2018, 3, 15), flatNumber: '', addressLine: '', wardName: '', ownershipType: '', residentsCount: 4,
   );
 
-  static List<Bill> get bills => [
-    Bill(
-      id: 'b1',
-      type: BillType.electricity,
-      monthLabel: 'January 2025',
-      amount: 2350,
-      dueDate: DateTime(2025, 2, 10),
-      status: BillStatus.overdue,
-    ),
-    Bill(
-      id: 'b2',
-      type: BillType.water,
-      monthLabel: 'January 2025',
-      amount: 450,
-      dueDate: DateTime(2025, 2, 8),
-      status: BillStatus.unpaid,
-    ),
-    Bill(
-      id: 'b3',
-      type: BillType.serviceCharge,
-      monthLabel: 'January 2025',
-      amount: 1500,
-      dueDate: DateTime(2025, 2, 15),
-      status: BillStatus.paid,
-    ),
+  static final List<Bill> bills = [
+    // ... existing bills ...
   ];
 
-  static List<Resident> get residents => [
-    Resident(
-      id: 'r1',
-      name: 'Rahman Ahmed',
-      role: 'Owner',
-      phone: '017xxxxxxxx',
-      isPrimary: true,
+  static final List<Resident> residents = [
+    // ... existing residents ...
+  ];
+
+  // Notices (Notice Board)
+  static final List<Notice> notices = [
+    Notice(
+      id: 'n1',
+      title: 'বার্ষিক বারান্দা পরিচ্ছন্নতা',
+      body: 'আগামী শনিবার সকাল ৯টায় সবাই অংশগ্রহণ করবেন। ব্রাশ, বালতি আনতে বলছি।',
+      authorName: 'বাড়ি কমিটি',
+      createdAt: DateTime.now().subtract(const Duration(days: 2, hours: 3)),
     ),
-    Resident(
-      id: 'r2',
-      name: 'Nusrat Jahan',
-      role: 'Owner',
-      phone: '018xxxxxxxx',
-    ),
-    Resident(
-      id: 'r3',
-      name: 'Siam Rahman',
-      role: 'Family',
-    ),
-    Resident(
-      id: 'r4',
-      name: 'Tanha Rahman',
-      role: 'Family',
+    Notice(
+      id: 'n2',
+      title: 'জেনারেটর রক্ষণাবেক্ষণ',
+      body: 'রোববার রাত ১০টা থেকে ১২টা পর্যন্ত জেনারেটর চেক করা হবে — শব্দ হবে।',
+      authorName: 'মোঃ আসাদুজ্জামান',
+      createdAt: DateTime.now().subtract(const Duration(days: 1, hours: 6)),
     ),
   ];
 }

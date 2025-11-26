@@ -37,7 +37,8 @@ ThemeData buildAppTheme() {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),
-        minimumSize: const Size.fromHeight(44),
+        // Use a reasonable minimum size (width x height) instead of infinite width
+        minimumSize: const Size(88, 44),
       ),
     ),
 

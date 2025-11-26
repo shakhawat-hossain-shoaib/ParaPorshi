@@ -1,10 +1,9 @@
 // lib/features/my_home/presentation/screens/residents_screen.dart
-
 import 'package:flutter/material.dart';
-import 'package:hyperlocal_hub_bd/config/app_typography.dart';
-import '../../data/my_home_repository.dart';
-import '../../models/resident.dart';
-import '../widgets/resident_card.dart';
+import 'package:hyperlocal_hub_bd/features/my_home/data/my_home_repository.dart';
+import 'package:hyperlocal_hub_bd/features/my_home/models/resident.dart';
+import 'package:hyperlocal_hub_bd/features/my_home/presentation/widgets/resident_card.dart';
+import 'package:hyperlocal_hub_bd/core/widgets/back_app_bar.dart';
 
 class ResidentsScreen extends StatefulWidget {
   const ResidentsScreen({super.key});
@@ -14,49 +13,46 @@ class ResidentsScreen extends StatefulWidget {
 }
 
 class _ResidentsScreenState extends State<ResidentsScreen> {
-  final _repo = MyHomeRepository();
   late Future<List<Resident>> _futureResidents;
 
   @override
   void initState() {
     super.initState();
-    _futureResidents = _repo.fetchResidents();
+    _futureResidents = myHomeRepository.getResidents();
+  }
+
+  Future<void> _refresh() async {
+    setState(() {
+      _futureResidents = myHomeRepository.getResidents();
+    });
+    await _futureResidents;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Residents'),
-      ),
-      body: FutureBuilder<List<Resident>>(
-        future: _futureResidents,
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          final residents = snapshot.data!;
-          if (residents.isEmpty) {
-            return const Center(child: Text('No residents added.'));
-          }
-
-          return ListView(
-            children: [
-              const SizedBox(height: 8),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: Text(
-                  'People currently living in this home.',
-                  style: AppTypography.body2,
-                ),
-              ),
-              const SizedBox(height: 8),
-              ...residents.map((r) => ResidentCard(resident: r)),
-              const SizedBox(height: 16),
-            ],
-          );
-        },
+      appBar: const BackAppBar(title: 'বাসিন্দা'),
+      body: RefreshIndicator(
+        onRefresh: _refresh,
+        child: FutureBuilder<List<Resident>>(
+          future: _futureResidents,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            if (snapshot.hasError) {
+              return ListView(children: [const SizedBox(height: 80), Center(child: Text('ত্রুটি: ${snapshot.error}'))]);
+            }
+            final residents = snapshot.data ?? [];
+            if (residents.isEmpty) {
+              return ListView(children: const [SizedBox(height: 80), Center(child: Text('কোনো বাসিন্দা যোগ করা নেই।'))]);
+            }
+            return ListView.builder(
+              itemCount: residents.length,
+              itemBuilder: (context, index) => ResidentCard(resident: residents[index]),
+            );
+          },
+        ),
       ),
     );
   }

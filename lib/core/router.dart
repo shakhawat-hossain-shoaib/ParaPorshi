@@ -1,5 +1,6 @@
 // lib/core/router.dart
 import 'package:go_router/go_router.dart';
+import 'package:hyperlocal_hub_bd/features/my_home/data/my_home_local_data.dart';
 
 // Onboarding & Home
 import 'package:hyperlocal_hub_bd/features/onboarding/presentation/screens/onboarding_welcome_screen.dart';
@@ -8,6 +9,9 @@ import 'package:hyperlocal_hub_bd/features/home/presentation/screens/home_screen
 // Auth
 import 'package:hyperlocal_hub_bd/features/auth/presentation/screens/sign_in_screen.dart';
 import 'package:hyperlocal_hub_bd/features/auth/presentation/screens/sign_up_screen.dart';
+import 'package:hyperlocal_hub_bd/features/auth/presentation/screens/otp_screen.dart';
+
+
 
 // Alerts
 import 'package:hyperlocal_hub_bd/features/alerts/presentation/screens/alerts_list_screen.dart';
@@ -49,10 +53,22 @@ import 'package:hyperlocal_hub_bd/features/my_home/presentation/screens/home_det
 import 'package:hyperlocal_hub_bd/features/my_home/presentation/screens/bills_screen.dart';
 import 'package:hyperlocal_hub_bd/features/my_home/presentation/screens/residents_screen.dart';
 
+import '../features/my_home/presentation/screens/create_notice_screen.dart';
+import '../features/my_home/presentation/screens/my_home_screen.dart';
+import '../features/my_home/presentation/screens/notice_board_screen.dart';
+
+
 GoRouter buildRouter() {
   return GoRouter(
+    // initial location remains onboarding
     initialLocation: '/onboarding',
     routes: [
+      // root (helpful to avoid "/" page-not-found)
+      GoRoute(
+        path: '/',
+        builder: (context, state) => const OnboardingWelcomeScreen(),
+      ),
+
       // Onboarding
       GoRoute(
         path: '/onboarding',
@@ -67,6 +83,22 @@ GoRouter buildRouter() {
       GoRoute(
         path: '/auth/sign-up',
         builder: (context, state) => const SignUpScreen(),
+      ),
+
+      // Backwards-compat fallback for older references that use /auth/phone
+      GoRoute(
+        path: '/auth/phone',
+        builder: (context, state) => const SignInScreen(),
+      ),
+
+      // OTP route (SignIn navigates here)
+      GoRoute(
+        path: '/auth/otp',
+        builder: (context, state) {
+          final extra = state.extra;
+          final phone = extra is String ? extra : null;
+          return OtpScreen(phoneNumber: phone);
+        },
       ),
 
       // Main home shell
@@ -110,7 +142,10 @@ GoRouter buildRouter() {
       ),
       GoRoute(
         path: '/services/provider',
-        builder: (context, state) => const ServiceProviderDetailScreen(),
+        builder: (context, state) {
+          final provider = state.extra as Map<String, dynamic>?;
+          return ServiceProviderDetailScreen(provider: provider);
+        },
       ),
 
       // Events
@@ -173,6 +208,18 @@ GoRouter buildRouter() {
       GoRoute(
         path: '/my-home/residents',
         builder: (context, state) => const ResidentsScreen(),
+      ),
+      GoRoute(
+        path: '/my-home/notice-board',
+        builder: (context, state) => const NoticeBoardScreen(),
+      ),
+      GoRoute(
+        path: '/my-home/notice-board/create',
+        builder: (context, state) => const CreateNoticeScreen(),
+      ),
+      GoRoute(
+        path: '/my-home',
+        builder: (context, state) => const MyHomeScreen(),
       ),
     ],
   );

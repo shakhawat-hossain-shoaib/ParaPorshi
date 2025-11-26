@@ -16,6 +16,6 @@ class HomeInfo {
     required this.wardName,
     required this.ownershipType,
     required this.residentsCount,
-    this.notes,
+    this.notes, required String flatNo, required String road, required String area, required String city, required String ward, required String ownerName, required String contactPhone, required int familyMembers, required DateTime livingSince,
   });
 }
