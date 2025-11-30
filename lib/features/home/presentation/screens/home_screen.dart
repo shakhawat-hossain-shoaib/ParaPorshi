@@ -23,7 +23,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _selectedIndex = 0;
   late List<Post> _posts;
 
   @override
@@ -32,9 +31,6 @@ class _HomeScreenState extends State<HomeScreen> {
     _posts = PostLocalData.posts;
   }
 
-  void _onTabTapped(int index) {
-    setState(() => _selectedIndex = index);
-  }
 
   Widget _buildHomeFeed() {
     return ListView(
@@ -48,30 +44,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final pages = [
-      _buildHomeFeed(),             // index 0: Home feed
-      const AlertsListScreen(),     // index 1: সতর্কতা
-      const MarketplaceScreen(),    // index 2: Marketplace
-      const ServicesListScreen(),   // index 3: Services
-      const MyHomeScreen(),         // index 4: নিজ বাড়ি
-    ];
-
-    final titles = [
-      'ParaPorshi ',
-      'সতর্কতা',   // ⭐ আগে "অ্যালার্ট" ছিল
-      'কেনাবেচা',
-      'সেবা',
-      'নিজ বাড়ি',
-    ];
-
-
-    final bool hideAppBar = _selectedIndex == 1 || _selectedIndex == 2;
-
     return Scaffold(
-      appBar: hideAppBar
-          ? null
-          : AppBar(
-        title: Text(titles[_selectedIndex]),
+      appBar: AppBar(
+        title: const Text('ParaPorshi '),
         actions: [
           IconButton(
             icon: const Icon(Icons.notifications_outlined),
@@ -85,36 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: SafeArea(child: pages[_selectedIndex]),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: _onTabTapped,
-        selectedItemColor: AppColors.primary,
-        unselectedItemColor: AppColors.textSecondary,
-        type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
-            label: 'হোম',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.notifications_active_outlined),
-            label: 'সতর্কতা', //
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.storefront_outlined),
-            label: 'কেনাবেচা',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_repair_service_outlined),
-            label: 'সেবা',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.house_rounded),
-            label: 'নিজ বাড়ি',
-          ),
-        ],
-      ),
+      body: SafeArea(child: _buildHomeFeed()),
     );
   }
 }

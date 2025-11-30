@@ -3,46 +3,28 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 /// BackAppBar
-/// - `targetRoute` optional: when set, pressing back will `context.go(targetRoute)`
-/// - if null, fallbackRoute (default '/my-home') will be used
+/// - [targetRoute] optional: when set, pressing back will `context.go(targetRoute)`
+/// - otherwise, it will try Navigator.pop() and fallback to '/my-home'
 class BackAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final List<Widget>? actions;
   final String? targetRoute;
-  final bool usePopFirst;
 
-  /// [targetRoute] — optional route path to navigate to when back pressed.
-  /// [usePopFirst] — if true, try Navigator.pop() first (default true).
-  const BackAppBar({
-    super.key,
-    required this.title,
-    this.actions,
-    this.targetRoute,
-    this.usePopFirst = true,
-  });
+  const BackAppBar({super.key, required this.title, this.actions, this.targetRoute});
 
   void _handleBack(BuildContext context) {
-    // 1) if requested, try pop()
-    if (usePopFirst) {
-      try {
-        if (Navigator.of(context).canPop()) {
-          Navigator.of(context).pop();
-          return;
-        }
-      } catch (_) {}
+    if (targetRoute != null) {
+      context.go(targetRoute!);
+      return;
     }
 
-    // 2) If targetRoute provided, go there
-    final route = targetRoute ?? '/my-home';
-    try {
-      context.go(route);
+    if (Navigator.of(context).canPop()) {
+      Navigator.of(context).pop();
       return;
-    } catch (e) {
-      // fallback: try pushReplacement to root
-      try {
-        Navigator.of(context).pushReplacementNamed('/');
-      } catch (_) {}
     }
+
+    // fallback
+    context.go('/my-home');
   }
 
   @override

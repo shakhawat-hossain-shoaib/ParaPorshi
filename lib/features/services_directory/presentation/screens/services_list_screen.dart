@@ -173,9 +173,7 @@ class _ServicesListScreenState extends State<ServicesListScreen> {
                     // ▶ Details: print debug then navigate with extra
                     trailing: TextButton(
                       onPressed: () {
-                        // debug print so we can verify the exact Map being passed
-                        // ignore: avoid_print
-                        print('Navigating to provider details. provider: $p');
+                        // navigate and pass provider map as extra (detail screen expects a Map)
 
                           // navigate and pass provider map as extra (convert to Map as detail page expects)
                           context.push('/services/provider', extra: {

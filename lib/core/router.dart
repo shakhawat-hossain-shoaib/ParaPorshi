@@ -1,81 +1,42 @@
 // lib/core/router.dart
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hyperlocal_hub_bd/features/my_home/data/my_home_local_data.dart';
 
-// Onboarding & Home
+// Onboarding & Auth (standalone)
 import 'package:hyperlocal_hub_bd/features/onboarding/presentation/screens/onboarding_welcome_screen.dart';
-import 'package:hyperlocal_hub_bd/features/home/presentation/screens/home_screen.dart';
-
-// Auth
 import 'package:hyperlocal_hub_bd/features/auth/presentation/screens/sign_in_screen.dart';
 import 'package:hyperlocal_hub_bd/features/auth/presentation/screens/sign_up_screen.dart';
-import 'package:hyperlocal_hub_bd/features/auth/presentation/screens/otp_screen.dart';
 
-
-
-// Alerts
+// App features (children of shell)
+import 'package:hyperlocal_hub_bd/features/home/presentation/screens/home_screen.dart';
 import 'package:hyperlocal_hub_bd/features/alerts/presentation/screens/alerts_list_screen.dart';
-import 'package:hyperlocal_hub_bd/features/alerts/presentation/screens/create_alert_screen.dart';
-
-// Marketplace
 import 'package:hyperlocal_hub_bd/features/marketplace/presentation/screens/marketplace_screen.dart';
-import 'package:hyperlocal_hub_bd/features/marketplace/presentation/screens/marketplace_create_item_screen.dart';
-import 'package:hyperlocal_hub_bd/features/marketplace/presentation/screens/marketplace_item_detail_screen.dart';
-import 'package:hyperlocal_hub_bd/core/models/marketplace_item.dart';
-
-// Services directory
 import 'package:hyperlocal_hub_bd/features/services_directory/presentation/screens/services_list_screen.dart';
-import 'package:hyperlocal_hub_bd/features/services_directory/presentation/screens/service_provider_detail_screen.dart';
-
-// Events
-import 'package:hyperlocal_hub_bd/features/events/presentation/screens/events_list_screen.dart';
-
-// Polls
-import 'package:hyperlocal_hub_bd/features/polls/presentation/screens/polls_list_screen.dart';
-import 'package:hyperlocal_hub_bd/features/polls/presentation/screens/create_poll_screen.dart';
-
-// Map
-import 'package:hyperlocal_hub_bd/features/map/presentation/screens/neighborhood_map_screen.dart';
-
-// Profile
-import 'package:hyperlocal_hub_bd/features/profile/presentation/screens/profile_screen.dart';
-import 'package:hyperlocal_hub_bd/features/profile/presentation/screens/edit_profile_screen.dart';
-
-// Settings
-import 'package:hyperlocal_hub_bd/features/settings/presentation/screens/settings_screen.dart';
-import 'package:hyperlocal_hub_bd/features/settings/presentation/screens/verification_levels_screen.dart';
-
-// General create post
-import 'package:hyperlocal_hub_bd/features/create_post/presentation/screens/create_post_screen.dart';
-
-// My Home
+import 'package:hyperlocal_hub_bd/features/my_home/presentation/screens/my_home_screen.dart';
 import 'package:hyperlocal_hub_bd/features/my_home/presentation/screens/home_details_screen.dart';
 import 'package:hyperlocal_hub_bd/features/my_home/presentation/screens/bills_screen.dart';
 import 'package:hyperlocal_hub_bd/features/my_home/presentation/screens/residents_screen.dart';
+import 'package:hyperlocal_hub_bd/features/my_home/presentation/screens/notice_board_screen.dart';
 
-import '../features/my_home/presentation/screens/create_notice_screen.dart';
-import '../features/my_home/presentation/screens/my_home_screen.dart';
-import '../features/my_home/presentation/screens/notice_board_screen.dart';
+// Other screens (events, polls, profile etc.)
+import 'package:hyperlocal_hub_bd/features/events/presentation/screens/events_list_screen.dart';
+import 'package:hyperlocal_hub_bd/features/polls/presentation/screens/polls_list_screen.dart';
+import 'package:hyperlocal_hub_bd/features/map/presentation/screens/neighborhood_map_screen.dart';
+import 'package:hyperlocal_hub_bd/features/profile/presentation/screens/profile_screen.dart';
+import 'package:hyperlocal_hub_bd/features/settings/presentation/screens/settings_screen.dart';
 
+import 'package:hyperlocal_hub_bd/config/app_colors.dart';
 
+/// Build a GoRouter with an app shell that shows persistent bottom nav.
 GoRouter buildRouter() {
   return GoRouter(
-    // initial location remains onboarding
     initialLocation: '/onboarding',
     routes: [
-      // root (helpful to avoid "/" page-not-found)
-      GoRoute(
-        path: '/',
-        builder: (context, state) => const OnboardingWelcomeScreen(),
-      ),
-
-      // Onboarding
+      // standalone routes
       GoRoute(
         path: '/onboarding',
         builder: (context, state) => const OnboardingWelcomeScreen(),
       ),
-
-      // Auth
       GoRoute(
         path: '/auth/sign-in',
         builder: (context, state) => const SignInScreen(),
@@ -85,142 +46,135 @@ GoRouter buildRouter() {
         builder: (context, state) => const SignUpScreen(),
       ),
 
-      // Backwards-compat fallback for older references that use /auth/phone
-      GoRoute(
-        path: '/auth/phone',
-        builder: (context, state) => const SignInScreen(),
-      ),
-
-      // OTP route (SignIn navigates here)
-      GoRoute(
-        path: '/auth/otp',
-        builder: (context, state) {
-          final extra = state.extra;
-          final phone = extra is String ? extra : null;
-          return OtpScreen(phoneNumber: phone);
+      // ShellRoute: persistent bottom navigation and shared scaffold
+      ShellRoute(
+        // Use the builder `state` inside ShellRoute builder to obtain location.
+        builder: (context, state, child) {
+          // `state.subloc` is a stable, short location path (e.g., '/home') supported by GoRouter.
+          // The shell can derive the active tab index from the child widget type.
+          return AppShell(child: child);
         },
-      ),
+        routes: [
+          // top-level app tabs (rendered inside shell)
+          GoRoute(
+            path: '/home',
+            builder: (context, state) => const HomeScreen(),
+          ),
+          GoRoute(
+            path: '/alerts',
+            builder: (context, state) => const AlertsListScreen(),
+          ),
+          GoRoute(
+            path: '/marketplace',
+            builder: (context, state) => const MarketplaceScreen(),
+          ),
+          GoRoute(
+            path: '/services',
+            builder: (context, state) => const ServicesListScreen(),
+          ),
+          // My Home and its subpages (all inside shell)
+          GoRoute(
+            path: '/my-home',
+            builder: (context, state) => const MyHomeScreen(),
+          ),
+          GoRoute(
+            path: '/my-home/details',
+            builder: (context, state) => const HomeDetailsScreen(),
+          ),
+          GoRoute(
+            path: '/my-home/bills',
+            builder: (context, state) => const BillsScreen(),
+          ),
+          GoRoute(
+            path: '/my-home/residents',
+            builder: (context, state) => const ResidentsScreen(),
+          ),
+          GoRoute(
+            path: '/my-home/notice-board',
+            builder: (context, state) => const NoticeBoardScreen(),
+          ),
 
-      // Main home shell
-      GoRoute(
-        path: '/home',
-        builder: (context, state) => const HomeScreen(),
-      ),
-
-      // Alerts
-      GoRoute(
-        path: '/alerts',
-        builder: (context, state) => const AlertsListScreen(),
-      ),
-      GoRoute(
-        path: '/alerts/create',
-        builder: (context, state) => const CreateAlertScreen(),
-      ),
-
-      // Marketplace
-      GoRoute(
-        path: '/marketplace',
-        builder: (context, state) => const MarketplaceScreen(),
-      ),
-      GoRoute(
-        path: '/marketplace/create',
-        builder: (context, state) => const MarketplaceCreateItemScreen(),
-      ),
-      GoRoute(
-        path: '/marketplace/item',
-        builder: (context, state) {
-          final extra = state.extra;
-          final item = extra is MarketplaceItem ? extra : null;
-          return MarketplaceItemDetailScreen(item: item);
-        },
-      ),
-
-      // Services directory
-      GoRoute(
-        path: '/services',
-        builder: (context, state) => const ServicesListScreen(),
-      ),
-      GoRoute(
-        path: '/services/provider',
-        builder: (context, state) {
-          final provider = state.extra as Map<String, dynamic>?;
-          return ServiceProviderDetailScreen(provider: provider);
-        },
-      ),
-
-      // Events
-      GoRoute(
-        path: '/events',
-        builder: (context, state) => const EventsListScreen(),
-      ),
-
-      // Polls
-      GoRoute(
-        path: '/polls',
-        builder: (context, state) => const PollsListScreen(),
-      ),
-      GoRoute(
-        path: '/polls/create',
-        builder: (context, state) => const CreatePollScreen(),
-      ),
-
-      // Map
-      GoRoute(
-        path: '/map',
-        builder: (context, state) => const NeighborhoodMapScreen(),
-      ),
-
-      // Profile
-      GoRoute(
-        path: '/profile',
-        builder: (context, state) => const ProfileScreen(),
-      ),
-      GoRoute(
-        path: '/profile/edit',
-        builder: (context, state) => const EditProfileScreen(),
-      ),
-
-      // Settings
-      GoRoute(
-        path: '/settings',
-        builder: (context, state) => const SettingsScreen(),
-      ),
-      GoRoute(
-        path: '/settings/verification',
-        builder: (context, state) => const VerificationLevelsScreen(),
-      ),
-
-      // General create post
-      GoRoute(
-        path: '/create-post',
-        builder: (context, state) => const CreatePostScreen(),
-      ),
-
-      // My Home
-      GoRoute(
-        path: '/my-home/details',
-        builder: (context, state) => const HomeDetailsScreen(),
-      ),
-      GoRoute(
-        path: '/my-home/bills',
-        builder: (context, state) => const BillsScreen(),
-      ),
-      GoRoute(
-        path: '/my-home/residents',
-        builder: (context, state) => const ResidentsScreen(),
-      ),
-      GoRoute(
-        path: '/my-home/notice-board',
-        builder: (context, state) => const NoticeBoardScreen(),
-      ),
-      GoRoute(
-        path: '/my-home/notice-board/create',
-        builder: (context, state) => const CreateNoticeScreen(),
-      ),
-      GoRoute(
-        path: '/my-home',
-        builder: (context, state) => const MyHomeScreen(),
+          // other app routes you want inside the shell
+          GoRoute(
+            path: '/events',
+            builder: (context, state) => const EventsListScreen(),
+          ),
+          GoRoute(
+            path: '/polls',
+            builder: (context, state) => const PollsListScreen(),
+          ),
+          GoRoute(
+            path: '/map',
+            builder: (context, state) => const NeighborhoodMapScreen(),
+          ),
+          GoRoute(
+            path: '/profile',
+            builder: (context, state) => const ProfileScreen(),
+          ),
+          GoRoute(
+            path: '/settings',
+            builder: (context, state) => const SettingsScreen(),
+          ),
+        ],
       ),
     ],
   );
+}
+
+/// Simple App Shell widget that renders the child and bottom navigation.
+/// Customize styles/colors/icons to match your app theme.
+class AppShell extends StatelessWidget {
+  final Widget child;
+  const AppShell({super.key, required this.child});
+
+  int _indexForChild(Widget child) {
+    if (child is HomeScreen) return 0;
+    if (child is AlertsListScreen) return 1;
+    if (child is MarketplaceScreen) return 2;
+    if (child is ServicesListScreen) return 3;
+    if (child is MyHomeScreen) return 4;
+    return 0;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final currentIndex = _indexForChild(child);
+
+    return Scaffold(
+      body: child,
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: currentIndex,
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: AppColors.primary,
+        unselectedItemColor: Colors.grey[700],
+        onTap: (i) {
+          switch (i) {
+            case 0:
+              context.go('/home');
+              break;
+            case 1:
+              context.go('/alerts');
+              break;
+            case 2:
+              context.go('/marketplace');
+              break;
+            case 3:
+              context.go('/services');
+              break;
+            case 4:
+            default:
+              context.go('/my-home');
+              break;
+          }
+        },
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: 'হোম'),
+          BottomNavigationBarItem(icon: Icon(Icons.notifications_none), label: 'সতর্কতা'),
+          BottomNavigationBarItem(icon: Icon(Icons.storefront_outlined), label: 'কেনাকাটা'),
+          BottomNavigationBarItem(icon: Icon(Icons.home_repair_service_outlined), label: 'সেবা'),
+          BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: 'নিজ বাড়ি'),
+        ],
+      ),
+    );
+  }
 }

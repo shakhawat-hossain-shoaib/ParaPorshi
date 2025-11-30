@@ -6,44 +6,13 @@ import 'package:hyperlocal_hub_bd/features/my_home/data/my_home_repository.dart'
 import 'package:hyperlocal_hub_bd/features/my_home/presentation/widgets/my_home_header.dart';
 import 'package:hyperlocal_hub_bd/core/widgets/back_app_bar.dart';
 
-class MyHomeScreen extends StatefulWidget {
+class MyHomeScreen extends StatelessWidget {
   const MyHomeScreen({super.key});
-
-  @override
-  State<MyHomeScreen> createState() => _MyHomeScreenState();
-}
-
-class _MyHomeScreenState extends State<MyHomeScreen> {
-  int _currentIndex = 4; // ধরে নিচ্ছি 'নিজ বাড়ি' হচ্ছে index 4
-
-  void _onNavTap(int index) {
-    // change index locally and navigate to corresponding route
-    setState(() => _currentIndex = index);
-
-    switch (index) {
-      case 0:
-        context.go('/home'); // Home
-        break;
-      case 1:
-        context.go('/alerts'); // সতর্কতা
-        break;
-      case 2:
-        context.go('/marketplace'); // কেনাকাটা
-        break;
-      case 3:
-        context.go('/services'); // সেবা
-        break;
-      case 4:
-      default:
-        context.go('/my-home'); // নিজ বাড়ি
-        break;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // আপনি চাইলে এখানে AppBar রাখতে পারেন; MyHomeScreen এ সাধারণত উপরেরবার ছিল না
+      // keep a simple top app bar for this screen
       appBar: AppBar(
         title: const Text('নিজ বাড়ি'),
         actions: [
@@ -52,18 +21,28 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
         ],
       ),
 
+      // Body uses FutureBuilder to load home info
       body: FutureBuilder(
         future: myHomeRepository.getHomeInfo(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
-          final info = snapshot.data!;
+          if (snapshot.hasError) {
+            return Center(child: Text('ত্রুটি: ${snapshot.error}'));
+          }
+          final info = snapshot.data;
+          if (info == null) {
+            return const Center(child: Text('কোনো বাড়ির তথ্য পাওয়া যায়নি।'));
+          }
+
           return ListView(
             padding: const EdgeInsets.only(bottom: 24),
             children: [
               MyHomeHeader(homeInfo: info),
               const SizedBox(height: 8),
+
+              // quick action grid
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: Row(
@@ -94,6 +73,7 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
                   ],
                 ),
               ),
+
               const SizedBox(height: 12),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -107,27 +87,12 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
           );
         },
       ),
-
-      // ===== persistent bottom navigation bar =====
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: _onNavTap,
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: AppColors.primary,
-        unselectedItemColor: Colors.grey[700],
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: 'হোম'),
-          BottomNavigationBarItem(icon: Icon(Icons.notifications_none), label: 'সতর্কতা'),
-          BottomNavigationBarItem(icon: Icon(Icons.storefront_outlined), label: 'কেনাকাটা'),
-          BottomNavigationBarItem(icon: Icon(Icons.room_service_outlined), label: 'সেবা'),
-          BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: 'নিজ বাড়ি'),
-        ],
-      ),
     );
   }
 }
 
 /// Safe Quick Action button using Material+Ink+InkWell
+/// (prevents "No Material widget found" runtime error)
 class _QuickActionButton extends StatelessWidget {
   final IconData icon;
   final String label;
