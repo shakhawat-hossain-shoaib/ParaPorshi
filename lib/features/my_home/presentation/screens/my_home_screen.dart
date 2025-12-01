@@ -39,7 +39,11 @@ class MyHomeScreen extends StatelessWidget {
           return ListView(
             padding: const EdgeInsets.only(bottom: 24),
             children: [
-              MyHomeHeader(homeInfo: info),
+              InkWell(
+                onTap: () => context.push('/my-home/details'),
+                borderRadius: BorderRadius.circular(16),
+                child: MyHomeHeader(homeInfo: info),
+              ),
               const SizedBox(height: 8),
 
               // quick action grid
@@ -49,17 +53,9 @@ class MyHomeScreen extends StatelessWidget {
                   children: [
                     Expanded(
                       child: _QuickActionButton(
-                        icon: Icons.assignment,
-                        label: 'বাড়ির বিস্তারিত',
-                        onTap: () => context.go('/my-home/details'),
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: _QuickActionButton(
                         icon: Icons.receipt_long,
                         label: 'বিলসমূহ',
-                        onTap: () => context.go('/my-home/bills'),
+                        onTap: () => context.push('/my-home/bills'),
                       ),
                     ),
                     const SizedBox(width: 8),
@@ -67,7 +63,7 @@ class MyHomeScreen extends StatelessWidget {
                       child: _QuickActionButton(
                         icon: Icons.people_alt,
                         label: 'বাসিন্দা',
-                        onTap: () => context.go('/my-home/residents'),
+                        onTap: () => context.push('/my-home/residents'),
                       ),
                     ),
                   ],
@@ -80,7 +76,16 @@ class MyHomeScreen extends StatelessWidget {
                 child: _QuickActionButton(
                   icon: Icons.announcement,
                   label: 'নোটিশ বোর্ড',
-                  onTap: () => context.go('/my-home/notice-board'),
+                  onTap: () => context.push('/my-home/notice-board'),
+                ),
+              ),
+              const SizedBox(height: 12),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: _QuickActionButton(
+                  icon: Icons.poll_outlined,
+                  label: 'পোল (Polls)',
+                  onTap: () => context.push('/polls'),
                 ),
               ),
             ],

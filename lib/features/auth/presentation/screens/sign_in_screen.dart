@@ -25,7 +25,7 @@ class _SignInScreenState extends State<SignInScreen> {
     }
 
     // navigate to OTP screen and pass phone number as extra
-    context.go('/auth/otp', extra: phone);
+    context.push('/auth/otp', extra: {'phone': phone, 'fromSignUp': false});
   }
 
   @override

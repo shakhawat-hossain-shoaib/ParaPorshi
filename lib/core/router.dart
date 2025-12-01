@@ -3,13 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 // Onboarding & Auth (standalone)
+// Onboarding & Auth (standalone)
 import 'package:hyperlocal_hub_bd/features/onboarding/presentation/screens/onboarding_welcome_screen.dart';
+import 'package:hyperlocal_hub_bd/features/onboarding/presentation/screens/onboarding_select_area_screen.dart';
+import 'package:hyperlocal_hub_bd/features/onboarding/presentation/screens/onboarding_interests_screen.dart';
 import 'package:hyperlocal_hub_bd/features/auth/presentation/screens/sign_in_screen.dart';
 import 'package:hyperlocal_hub_bd/features/auth/presentation/screens/sign_up_screen.dart';
+import 'package:hyperlocal_hub_bd/features/auth/presentation/screens/otp_screen.dart';
 
 // App features (children of shell)
 import 'package:hyperlocal_hub_bd/features/home/presentation/screens/home_screen.dart';
 import 'package:hyperlocal_hub_bd/features/alerts/presentation/screens/alerts_list_screen.dart';
+import 'package:hyperlocal_hub_bd/features/alerts/presentation/screens/create_alert_screen.dart';
 import 'package:hyperlocal_hub_bd/features/marketplace/presentation/screens/marketplace_screen.dart';
 import 'package:hyperlocal_hub_bd/features/services_directory/presentation/screens/services_list_screen.dart';
 import 'package:hyperlocal_hub_bd/features/my_home/presentation/screens/my_home_screen.dart';
@@ -17,13 +22,21 @@ import 'package:hyperlocal_hub_bd/features/my_home/presentation/screens/home_det
 import 'package:hyperlocal_hub_bd/features/my_home/presentation/screens/bills_screen.dart';
 import 'package:hyperlocal_hub_bd/features/my_home/presentation/screens/residents_screen.dart';
 import 'package:hyperlocal_hub_bd/features/my_home/presentation/screens/notice_board_screen.dart';
+import 'package:hyperlocal_hub_bd/features/my_home/presentation/screens/create_notice_screen.dart';
 
 // Other screens (events, polls, profile etc.)
 import 'package:hyperlocal_hub_bd/features/events/presentation/screens/events_list_screen.dart';
+import 'package:hyperlocal_hub_bd/features/services_directory/presentation/screens/service_provider_detail_screen.dart';
+
 import 'package:hyperlocal_hub_bd/features/polls/presentation/screens/polls_list_screen.dart';
+import 'package:hyperlocal_hub_bd/features/polls/presentation/screens/create_poll_screen.dart';
 import 'package:hyperlocal_hub_bd/features/map/presentation/screens/neighborhood_map_screen.dart';
 import 'package:hyperlocal_hub_bd/features/profile/presentation/screens/profile_screen.dart';
 import 'package:hyperlocal_hub_bd/features/settings/presentation/screens/settings_screen.dart';
+import 'package:hyperlocal_hub_bd/features/notifications/presentation/screens/notification_screen.dart';
+import 'package:hyperlocal_hub_bd/features/marketplace/presentation/screens/marketplace_item_detail_screen.dart';
+import 'package:hyperlocal_hub_bd/features/marketplace/presentation/screens/marketplace_create_item_screen.dart';
+import 'package:hyperlocal_hub_bd/core/models/marketplace_item.dart';
 
 import 'package:hyperlocal_hub_bd/config/app_colors.dart';
 
@@ -38,12 +51,37 @@ GoRouter buildRouter() {
         builder: (context, state) => const OnboardingWelcomeScreen(),
       ),
       GoRoute(
+        path: '/onboarding/select-area',
+        builder: (context, state) => const OnboardingSelectAreaScreen(),
+      ),
+      GoRoute(
+        path: '/onboarding/interests',
+        builder: (context, state) => const OnboardingInterestsScreen(),
+      ),
+      GoRoute(
         path: '/auth/sign-in',
         builder: (context, state) => const SignInScreen(),
       ),
       GoRoute(
         path: '/auth/sign-up',
         builder: (context, state) => const SignUpScreen(),
+      ),
+      GoRoute(
+        path: '/auth/otp',
+        builder: (context, state) {
+          final extra = state.extra;
+          String? phone;
+          bool fromSignUp = false;
+
+          if (extra is Map<String, dynamic>) {
+            phone = extra['phone'] as String?;
+            fromSignUp = extra['fromSignUp'] as bool? ?? false;
+          } else if (extra is String) {
+            phone = extra;
+          }
+
+          return OtpScreen(phoneNumber: phone, fromSignUp: fromSignUp);
+        },
       ),
 
       // ShellRoute: persistent bottom navigation and shared scaffold
@@ -63,14 +101,43 @@ GoRouter buildRouter() {
           GoRoute(
             path: '/alerts',
             builder: (context, state) => const AlertsListScreen(),
-          ),
+              routes: [
+                GoRoute(
+                  path: 'create',
+                  builder: (context, state) => const CreateAlertScreen(),
+                ),
+              ],
+            ),
           GoRoute(
             path: '/marketplace',
             builder: (context, state) => const MarketplaceScreen(),
-          ),
+            routes: [
+              GoRoute(
+                path: 'item',
+                builder: (context, state) {
+                  final extra = state.extra;
+                  final item = extra is MarketplaceItem ? extra : null;
+                  return MarketplaceItemDetailScreen(item: item);
+                },
+              ),
+              GoRoute(
+                path: 'create',
+                builder: (context, state) => const MarketplaceCreateItemScreen(),
+              ),
+            ],
+            ),
+          
           GoRoute(
             path: '/services',
             builder: (context, state) => const ServicesListScreen(),
+          ),
+          GoRoute(
+            path: '/services/provider',
+            builder: (context, state) {
+              final extra = state.extra;
+              final provider = extra is Map<String, dynamic> ? extra : null;
+              return ServiceProviderDetailScreen(provider: provider);
+            },
           ),
           // My Home and its subpages (all inside shell)
           GoRoute(
@@ -92,6 +159,12 @@ GoRouter buildRouter() {
           GoRoute(
             path: '/my-home/notice-board',
             builder: (context, state) => const NoticeBoardScreen(),
+            routes: [
+              GoRoute(
+                path: 'create',
+                builder: (context, state) => const CreateNoticeScreen(),
+              ),
+            ],
           ),
 
           // other app routes you want inside the shell
@@ -102,6 +175,12 @@ GoRouter buildRouter() {
           GoRoute(
             path: '/polls',
             builder: (context, state) => const PollsListScreen(),
+            routes: [
+              GoRoute(
+                path: 'create',
+                builder: (context, state) => const CreatePollScreen(),
+              ),
+            ],
           ),
           GoRoute(
             path: '/map',
@@ -114,6 +193,10 @@ GoRouter buildRouter() {
           GoRoute(
             path: '/settings',
             builder: (context, state) => const SettingsScreen(),
+          ),
+          GoRoute(
+            path: '/notifications',
+            builder: (context, state) => const NotificationScreen(),
           ),
         ],
       ),
@@ -132,7 +215,12 @@ class AppShell extends StatelessWidget {
     if (child is AlertsListScreen) return 1;
     if (child is MarketplaceScreen) return 2;
     if (child is ServicesListScreen) return 3;
-    if (child is MyHomeScreen) return 4;
+    if (child is MyHomeScreen ||
+        child is HomeDetailsScreen ||
+        child is BillsScreen ||
+        child is ResidentsScreen ||
+        child is NoticeBoardScreen ||
+        child is CreateNoticeScreen) return 4;
     return 0;
   }
 

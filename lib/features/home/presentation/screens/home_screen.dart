@@ -50,7 +50,9 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.notifications_outlined),
-            onPressed: () {},
+            onPressed: () {
+              context.push('/notifications');
+            },
           ),
           IconButton(
             icon: const Icon(Icons.person_outline),

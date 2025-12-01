@@ -5,6 +5,7 @@ class MarketplaceItem {
   final String title;
   final String priceText;
   final String? imageUrl;
+  final String? sellerPhone;
   final String distanceText;
   final String description;
 
@@ -12,6 +13,7 @@ class MarketplaceItem {
     required this.id,
     required this.title,
     required this.priceText,
+    this.sellerPhone,
     required this.distanceText,
     required this.description,
     this.imageUrl,

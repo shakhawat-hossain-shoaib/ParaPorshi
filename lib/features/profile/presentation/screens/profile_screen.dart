@@ -74,7 +74,19 @@ class ProfileScreen extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           _infoRow('Area', profile.area),
+          _infoRow('Area', profile.area),
           _infoRow('Ward', profile.ward),
+          const SizedBox(height: 32),
+          ListTile(
+            leading: const Icon(Icons.logout, color: Colors.red),
+            title: const Text('Sign Out', style: TextStyle(color: Colors.red)),
+            onTap: () {
+              // Sign out logic here (clear session etc.)
+              // For now, just navigate to onboarding
+              context.go('/onboarding');
+            },
+          ),
+          const SizedBox(height: 24),
         ],
       ),
     );

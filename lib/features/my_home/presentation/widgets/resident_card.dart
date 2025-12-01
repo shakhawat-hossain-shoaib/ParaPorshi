@@ -37,7 +37,7 @@ class ResidentCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              resident.role,
+              '${resident.role} • ${resident.flatNumber}',
               style: AppTypography.body2,
             ),
             if (resident.phone != null) ...[

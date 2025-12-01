@@ -1,5 +1,6 @@
 // lib/features/onboarding/presentation/screens/onboarding_select_area_screen.dart
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hyperlocal_hub_bd/config/app_typography.dart';
 import 'package:hyperlocal_hub_bd/core/widgets/app_text_field.dart';
 import 'package:hyperlocal_hub_bd/core/widgets/primary_button.dart';
@@ -45,7 +46,7 @@ class OnboardingSelectAreaScreen extends StatelessWidget {
             PrimaryButton(
               label: 'পরবর্তী',
               onPressed: () {
-                // Later: go to interests onboarding
+                context.push('/onboarding/interests');
               },
             ),
           ],

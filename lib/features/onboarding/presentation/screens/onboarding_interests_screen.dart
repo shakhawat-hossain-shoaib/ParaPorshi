@@ -1,5 +1,6 @@
 // lib/features/onboarding/presentation/screens/onboarding_interests_screen.dart
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hyperlocal_hub_bd/config/app_typography.dart';
 import 'package:hyperlocal_hub_bd/core/widgets/primary_button.dart';
 import 'package:hyperlocal_hub_bd/features/onboarding/presentation/widgets/onboarding_step_indicator.dart';
@@ -65,7 +66,7 @@ class _OnboardingInterestsScreenState extends State<OnboardingInterestsScreen> {
             PrimaryButton(
               label: 'শুরু করুন',
               onPressed: () {
-                // Later: navigate to home
+                context.go('/home');
               },
             ),
           ],

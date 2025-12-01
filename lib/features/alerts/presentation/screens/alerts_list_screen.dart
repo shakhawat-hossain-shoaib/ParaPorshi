@@ -83,7 +83,10 @@ class _AlertsListScreenState extends State<AlertsListScreen> {
                 ),
                 const Spacer(),
                 TextButton.icon(
-                  onPressed: () => context.go('/alerts/create'),
+                  onPressed: () {
+                    debugPrint('Alerts: create button pressed');
+                    context.go('/alerts/create');
+                  },
                   style: TextButton.styleFrom(
                     backgroundColor: AppColors.primary,
                     foregroundColor: Colors.white,

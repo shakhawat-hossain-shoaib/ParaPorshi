@@ -7,8 +7,9 @@ import 'package:hyperlocal_hub_bd/config/app_typography.dart';
 
 class OtpScreen extends StatefulWidget {
   final String? phoneNumber;
+  final bool fromSignUp;
 
-  const OtpScreen({super.key, this.phoneNumber});
+  const OtpScreen({super.key, this.phoneNumber, this.fromSignUp = false});
 
   @override
   State<OtpScreen> createState() => _OtpScreenState();
@@ -47,8 +48,13 @@ class _OtpScreenState extends State<OtpScreen> {
     // simulate verification delay
     await Future.delayed(const Duration(milliseconds: 400));
 
-    // after success → GO HOME
-    context.go('/home');
+    if (widget.fromSignUp) {
+      // Sign Up flow: Go to Select Area
+      context.go('/onboarding/select-area');
+    } else {
+      // Sign In flow: Go directly to Home
+      context.go('/home');
+    }
   }
 
   @override

@@ -1,13 +1,31 @@
 // lib/features/polls/presentation/screens/polls_list_screen.dart
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hyperlocal_hub_bd/core/models/poll.dart';
+import 'package:hyperlocal_hub_bd/config/app_colors.dart';
 import 'package:hyperlocal_hub_bd/config/app_typography.dart';
 
 class PollsListScreen extends StatelessWidget {
   const PollsListScreen({super.key});
 
   @override
+
+
+  @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      body: _buildList(context),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          context.push('/polls/create');
+        },
+        backgroundColor: AppColors.primary,
+        child: const Icon(Icons.add, color: Colors.white),
+      ),
+    );
+  }
+
+  Widget _buildList(BuildContext context) {
     final polls = [
       PollModel(
         id: '1',

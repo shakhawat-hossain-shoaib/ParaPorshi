@@ -21,6 +21,7 @@ class _MarketplaceCreateItemScreenState
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('MarketplaceCreateItemScreen built');
     return Scaffold(
       appBar: AppBar(
         title: const Text('নতুন বিক্রয় পোস্ট'),

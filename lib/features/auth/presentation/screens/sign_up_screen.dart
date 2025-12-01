@@ -33,7 +33,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     setState(() => _loading = false);
 
     // TODO: এখানে সত্যিকারের sign up + OTP logic আসবে
-    context.go('/home');
+    context.push('/auth/otp', extra: {'phone': _phoneController.text, 'fromSignUp': true});
   }
 
   @override

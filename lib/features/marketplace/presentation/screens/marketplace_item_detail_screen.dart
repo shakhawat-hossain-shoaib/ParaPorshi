@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:hyperlocal_hub_bd/config/app_typography.dart';
+import 'package:hyperlocal_hub_bd/config/app_colors.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:hyperlocal_hub_bd/core/models/marketplace_item.dart';
 
 class MarketplaceItemDetailScreen extends StatelessWidget {
@@ -89,11 +91,10 @@ class MarketplaceItemDetailScreen extends StatelessWidget {
           ),
           const SizedBox(height: 24),
 
-          // seller section – placeholder for now
+          // seller section – show contact and actions
           Text(
             'Seller',
-            style:
-            AppTypography.body1.copyWith(fontWeight: FontWeight.w600),
+            style: AppTypography.body1.copyWith(fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 8),
           ListTile(
@@ -109,13 +110,48 @@ class MarketplaceItemDetailScreen extends StatelessWidget {
               'Member of ParaConnect',
               style: AppTypography.body2,
             ),
-            trailing: OutlinedButton.icon(
-              onPressed: () {
-                // later: open chat / call
-              },
-              icon: const Icon(Icons.chat_bubble_outline, size: 18),
-              label: const Text('Message'),
-            ),
+          ),
+          const SizedBox(height: 8),
+          Row(
+            children: [
+              // small chat square
+              Container(
+                width: 48,
+                height: 48,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: AppColors.primary),
+                ),
+                child: IconButton(
+                  icon: Icon(Icons.chat_bubble_outline, color: AppColors.primary),
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Chat not implemented yet')));
+                  },
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primary,
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  ),
+                  onPressed: () async {
+                    final phone = item?.sellerPhone ?? '+8801712345678';
+                    final url = Uri.parse('tel:$phone');
+                    if (await canLaunchUrl(url)) {
+                      await launchUrl(url);
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Cannot make a call')));
+                    }
+                  },
+                  icon: const Icon(Icons.call, size: 18),
+                  label: const Text('কল করুন'),
+                ),
+              ),
+            ],
           ),
         ],
       ),

@@ -23,11 +23,104 @@ class MyHomeLocalData {
   );
 
   static final List<Bill> bills = [
-    // ... existing bills ...
+    Bill(
+      id: 'b1',
+      type: BillType.electricity,
+      monthLabel: 'নভেম্বর ২০২৪',
+      amount: 1250.0,
+      dueDate: DateTime(2024, 12, 10),
+      status: BillStatus.unpaid,
+    ),
+    Bill(
+      id: 'b2',
+      type: BillType.gas,
+      monthLabel: 'নভেম্বর ২০২৪',
+      amount: 975.0,
+      dueDate: DateTime(2024, 12, 15),
+      status: BillStatus.paid,
+    ),
+    Bill(
+      id: 'b3',
+      type: BillType.serviceCharge, // Using serviceCharge as proxy for internet or add internet to enum if needed. For now using serviceCharge.
+      monthLabel: 'ইন্টারনেট - নভেম্বর ২০২৪',
+      amount: 800.0,
+      dueDate: DateTime(2024, 12, 5),
+      status: BillStatus.unpaid,
+    ),
   ];
 
   static final List<Resident> residents = [
-    // ... existing residents ...
+    Resident(
+      id: 'r1',
+      name: 'আব্দুর রহিম',
+      role: 'Owner',
+      flatNumber: 'A-1',
+      phone: '01711111111',
+      isPrimary: true,
+    ),
+    Resident(
+      id: 'r2',
+      name: 'করিম মিয়া',
+      role: 'Tenant',
+      flatNumber: 'A-2',
+      phone: '01822222222',
+    ),
+    Resident(
+      id: 'r3',
+      name: 'রহিমা বেগম',
+      role: 'Tenant',
+      flatNumber: 'B-1',
+      phone: '01933333333',
+    ),
+    Resident(
+      id: 'r4',
+      name: 'জামাল উদ্দিন',
+      role: 'Owner',
+      flatNumber: 'B-2',
+      phone: '01644444444',
+    ),
+    Resident(
+      id: 'r5',
+      name: 'সালমা খাতুন',
+      role: 'Tenant',
+      flatNumber: 'C-1',
+      phone: '01555555555',
+    ),
+    Resident(
+      id: 'r6',
+      name: 'রফিক আহমেদ',
+      role: 'Tenant',
+      flatNumber: 'C-2',
+      phone: '01766666666',
+    ),
+    Resident(
+      id: 'r7',
+      name: 'নাজমা আক্তার',
+      role: 'Owner',
+      flatNumber: 'D-1',
+      phone: '01877777777',
+    ),
+    Resident(
+      id: 'r8',
+      name: 'কামাল হোসেন',
+      role: 'Tenant',
+      flatNumber: 'D-2',
+      phone: '01988888888',
+    ),
+    Resident(
+      id: 'r9',
+      name: 'ফাতেমা বেগম',
+      role: 'Tenant',
+      flatNumber: 'E-1',
+      phone: '01699999999',
+    ),
+    Resident(
+      id: 'r10',
+      name: 'হাসান মাহমুদ',
+      role: 'Owner',
+      flatNumber: 'E-2',
+      phone: '01500000000',
+    ),
   ];
 
   // Notices (Notice Board)
